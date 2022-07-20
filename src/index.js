@@ -8,7 +8,7 @@ import createSagaMiddleware from 'redux-saga';
 import logger from 'redux-logger';
 import {takeEvery, put} from 'redux-saga/effects';
 import axios from 'axios';
-import { response } from 'express';
+
 
 const gifList = (state = [], action) => {
     switch(action.type) {
@@ -32,8 +32,8 @@ const favList=(state=[], action)=>{
 
 function* fetchFavs(){
     try{
-        const favs=yield axios.get('/api/favorite')
-        yield put({type: 'SET_FAVS', payload: favs.data})
+        const favsResponse=yield axios.get('/api/favorite')
+        yield put({type: 'SET_FAVS', payload: favsResponse.data})
     } catch(error){
         console.log('Error in fetchFavs', error)
     }
