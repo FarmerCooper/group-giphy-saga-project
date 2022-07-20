@@ -9,6 +9,7 @@ function App() {
   useEffect(() => {
     //dispatch will go here
     // dispatch({});
+    dispatch({type: 'FETCH_FAVS'})
   }, []);
 
   return (
