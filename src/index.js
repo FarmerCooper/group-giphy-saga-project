@@ -8,6 +8,7 @@ import createSagaMiddleware from 'redux-saga';
 import logger from 'redux-logger';
 import {takeEvery, put} from 'redux-saga/effects';
 import axios from 'axios';
+import { response } from 'express';
 
 const gifList = (state = [], action) => {
     switch(action.type) {
@@ -18,9 +19,30 @@ const gifList = (state = [], action) => {
     }
 }
 
+const favList=(state=[], action)=>{
+    switch(action.type) {
+        case 'SET_FAVS':
+            //maybe spread payload
+            return action.payload;
+        default:
+            return state;
+        }
+        
+}
+
+function* fetchFavs(){
+    try{
+        const favs=yield axios.get('/api/favorite')
+        yield put({type: 'SET_FAVS', payload: favs.data})
+    } catch(error){
+        console.log('Error in fetchFavs', error)
+    }
+}
+
 // this is the saga that will watch for actions
 function* watcherSaga() {
     // saga listeners go here
+    yield takeEvery('FETCH_FAVS', fetchFavs)
 }
 
 const sagaMiddleware = createSagaMiddleware();
@@ -32,7 +54,8 @@ const storeInstance = createStore (
     // reducer is a function that runs every time an action is dispatched
     combineReducers({
         //reducers go here
-        gifList
+        gifList,
+        favList
     }),
     applyMiddleware(sagaMiddleware, logger),
 );
