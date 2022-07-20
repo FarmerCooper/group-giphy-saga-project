@@ -24,6 +24,10 @@ function App() {
         <Router>
             <div className="App-Header">
                 <h1>Giphy Search!</h1>
+                <nav>
+                    <Link to="/">Home</Link>
+                    <Link to="/favorites">Favorites</Link>
+                </nav>
             </div>
             <Route path="/" exact component={Home} />
             <Route path="/favorites" exact component={Favorites} />

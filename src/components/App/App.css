@@ -7,7 +7,12 @@ body {
 
 .App-Header {
     background-color: #121212;
-    height: 15rem;
+    height: 10rem;
     padding: 2rem;
     color: white;
+}
+
+input {
+    height: 3rem;
+    min-width: 15rem;
 }
