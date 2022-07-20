@@ -1,7 +1,11 @@
 CREATE DATABASE "giphy_search_favorites";
 
 -- You'll need a table for storing each giphy image favorite
--- Each favorite image can be assigned 1 of the following categories as a Foreign Key
+-- Each favorite image can be assigned 1 of the following categories as a Foreign Key\
+CREATE TABLE "category" (
+    "id" SERIAL PRIMARY KEY,
+    "name" VARCHAR (100) NOT NULL
+);
 
 -- Category table
 CREATE TABLE "category" (
@@ -12,3 +16,7 @@ CREATE TABLE "category" (
 -- Default categories. You may change them :)
 INSERT INTO "category" ("name")
 VALUES ('funny'), ('cohort'), ('cartoon'), ('nsfw'), ('meme');
+
+-- Dummy data
+INSERT INTO "favorites" ("url", "category_id") 
+VALUES ('https://giphy.com/embed/CJyRX8btFziYLt3WAT/video', 1);
