@@ -6,7 +6,7 @@ const router = express.Router();
 router.get('/', (req, res) => {
     axios
         .get(
-            `http://api.giphy.com/v1/gifs/search?api_key=${process.env.GIPHY_API_KEY}`
+            `api.giphy.com/v1/gifs/search?api_key=${process.env.GIPHY_API_KEY}`
         )
         .then((response) => {
             console.log(response.data);
