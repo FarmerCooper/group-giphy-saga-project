@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './components/App/App.jsx';
 import registerServiceWorker from './registerServiceWorker';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
-import { Provider } from 'react-redux';
+import { Provider, useSelector } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 import logger from 'redux-logger';
 
@@ -27,7 +27,6 @@ const searchResults = (state = [], action) => {
     }
 };
 
-// this is the saga that will watch for actions
 function* watcherSaga() {
     // saga listeners go here
 }

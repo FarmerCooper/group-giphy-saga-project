@@ -9,7 +9,7 @@ router.get('/', (req, res) => {
     axios
         .get(
             // `api.giphy.com/v1/gifs/search?api_key=${process.env.GIPHY_API_KEY}&q=funny`
-            `https://api.giphy.com/v1/gifs/search?api_key=nR53XDk29cb1DEY75iUp8LgqIDvnB7rF&q=funny`
+            `https://api.giphy.com/v1/gifs/search?api_key=nR53XDk29cb1DEY75iUp8LgqIDvnB7rF&q=${category}`
         )
         .then((response) => {
             // console.log(`Here's what I got from giphy API:`, response.data);
