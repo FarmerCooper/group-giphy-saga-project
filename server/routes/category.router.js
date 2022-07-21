@@ -5,14 +5,21 @@ const router = express.Router();
 
 //* 1. set up GET request
 //! remember to use the http:
-router.get('/', (req, res) => {
+router.get('/:url', (req, res) => {
+    //const
+    const term = req.body;
+    const params = req.params;
+
+    //console.log
+    console.log(`Req.body:`, term);
+    console.log(`Req.params:`, params.url);
+    // console.log(`Req.body:`, req.body);
+
     axios
         .get(
-            // `api.giphy.com/v1/gifs/search?api_key=${process.env.GIPHY_API_KEY}&q=funny`
-            `https://api.giphy.com/v1/gifs/search?api_key=nR53XDk29cb1DEY75iUp8LgqIDvnB7rF&q=${category}`
+            `https://api.giphy.com/v1/gifs/search?api_key=${process.env.GIPHY_API_KEY}&q=${params.url}`
         )
         .then((response) => {
-            // console.log(`Here's what I got from giphy API:`, response.data);
             res.send(response.data);
         })
         .catch((err) => {
