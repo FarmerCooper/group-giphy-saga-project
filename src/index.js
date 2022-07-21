@@ -22,8 +22,10 @@ const gifList = (state = [], action) => {
 const favList=(state=[], action)=>{
     switch(action.type) {
         case 'SET_FAVS':
+            console.log(action.payload)
             //maybe spread payload
             return action.payload;
+            
         default:
             return state;
         }
@@ -38,6 +40,7 @@ function* fetchFavs(){
         console.log('Error in fetchFavs', error)
     }
 }
+
 
 // this is the saga that will watch for actions
 function* watcherSaga() {
