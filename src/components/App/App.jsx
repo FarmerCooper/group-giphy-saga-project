@@ -14,11 +14,11 @@ function App() {
     //const
     const dispatch = useDispatch();
 
-    //useEffect
-    useEffect(() => {
-        //dispatch will go here
-        // dispatch({});
-    }, []);
+  useEffect(() => {
+    //dispatch will go here
+    // dispatch({});
+    dispatch({type: 'FETCH_FAVS'})
+  }, []);
 
     return (
         <Router>

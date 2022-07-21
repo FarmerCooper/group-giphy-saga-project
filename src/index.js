@@ -7,7 +7,6 @@ import { Provider, useSelector } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 import logger from 'redux-logger';
 
-//favorites
 const gifList = (state = [], action) => {
     switch (action.type) {
         case 'SET_GIFS':
@@ -27,8 +26,32 @@ const searchResults = (state = [], action) => {
     }
 };
 
+const favList=(state=[], action)=>{
+    switch(action.type) {
+        case 'SET_FAVS':
+            console.log(action.payload)
+            //maybe spread payload
+            return action.payload;
+            
+        default:
+            return state;
+        }
+        
+}
+
+function* fetchFavs(){
+    try{
+        const favsResponse=yield axios.get('/api/favorite')
+        yield put({type: 'SET_FAVS', payload: favsResponse.data})
+    } catch(error){
+        console.log('Error in fetchFavs', error)
+    }
+}
+
+
 function* watcherSaga() {
     // saga listeners go here
+    yield takeEvery('FETCH_FAVS', fetchFavs)
 }
 
 const sagaMiddleware = createSagaMiddleware();
@@ -42,6 +65,7 @@ const storeInstance = createStore(
         //reducers go here
         searchResults,
         gifList,
+        favList
     }),
     applyMiddleware(sagaMiddleware, logger)
 );
