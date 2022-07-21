@@ -6,7 +6,10 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider, useSelector } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 import logger from 'redux-logger';
+import { takeEvery, put } from 'redux-saga/effects';
+import axios from 'axios';
 
+//REDUCER
 const gifList = (state = [], action) => {
     switch (action.type) {
         case 'SET_GIFS':
@@ -16,42 +19,69 @@ const gifList = (state = [], action) => {
     }
 };
 
+const favList = (state = [], action) => {
+    switch (action.type) {
+        case 'SET_FAVS':
+            console.log(action.payload);
+            //maybe spread payload
+            return action.payload;
+
+        default:
+            return state;
+    }
+};
+
 //GET => search results
 const searchResults = (state = [], action) => {
+    console.log('this one', action.payload)
     switch (action.type) {
-        case 'SET_RESULTS':
+        case 'GET_RESULTS':
             return action.payload;
         default:
             return state;
     }
 };
 
-const favList=(state=[], action)=>{
-    switch(action.type) {
-        case 'SET_FAVS':
-            console.log(action.payload)
-            //maybe spread payload
-            return action.payload;
-            
-        default:
-            return state;
-        }
-        
-}
-
-function* fetchFavs(){
-    try{
-        const favsResponse=yield axios.get('/api/favorite')
-        yield put({type: 'SET_FAVS', payload: favsResponse.data})
-    } catch(error){
-        console.log('Error in fetchFavs', error)
+//GENERATOR
+function* fetchFavs() {
+    try {
+        const favsResponse = yield axios.get('/api/favorite');
+        yield put({ type: 'SET_FAVS', payload: favsResponse.data });
+    } catch (error) {
+        console.log('Error in fetchFavs', error);
     }
 }
 
+function* postSearchTerm(action) {
+    try {
+        const searchResponse = yield axios.get(
+            `/api/category/${action.payload}`
+        );
+        //! map was correct, but needed .data.data
+        yield put({ type: 'GET_RESULTS', payload: searchResponse.data.data });
+    } catch (error) {
+        console.log('Error in postSearchTerm', error);
+    }
+    console.log(`Action.payload: `, action.payload);
+}
+
+// function* postSearchTerm(action) {
+//     console.log(`Action.payload:`, action.payload);
+//     try {
+//         yield axios.get('/api/category', action.payload);
+//         //GET
+//         yield put({ type: 'GET_CATEGORY' });
+//     } catch (error) {
+//         console.log('Error in postSearchTerm', error);
+//     }
+// }
 
 function* watcherSaga() {
     // saga listeners go here
-    yield takeEvery('FETCH_FAVS', fetchFavs)
+    // GET
+    yield takeEvery('FETCH_FAVS', fetchFavs);
+    // POST
+    yield takeEvery('SEARCH_RESULTS', postSearchTerm);
 }
 
 const sagaMiddleware = createSagaMiddleware();
@@ -65,7 +95,7 @@ const storeInstance = createStore(
         //reducers go here
         searchResults,
         gifList,
-        favList
+        favList,
     }),
     applyMiddleware(sagaMiddleware, logger)
 );
