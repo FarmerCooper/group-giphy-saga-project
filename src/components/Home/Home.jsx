@@ -12,6 +12,7 @@ export default function Home() {
     console.log(`What is searchResults: `, searchResults);
     //local
     const [term, setTerm] = useState('');
+    const [favorite, setFavorite] = useState([]);
 
     const search = (event) => {
         setTerm(event.target.value);
@@ -25,6 +26,15 @@ export default function Home() {
         });
         //CLEAR INPUTS
         setTerm('');
+    };
+
+    const addToFavorites = (gif) => {
+        console.log(`Is this the URL?`, gif.target.src);
+        setFavorite(gif.target.src);
+        dispatch({
+            type: 'POST_FAV',
+            payload: favorite,
+        });
     };
 
     console.log(`What is this thing?:`, searchResults);
@@ -41,7 +51,21 @@ export default function Home() {
             </form>
             <p>Results go here</p>
             {searchResults.map((gif, i) => {
-                return <img key={i} src={gif.images.original.url} />;
+                return (
+                    <div key={i}>
+                        <img
+                            value={favorite}
+                            onClick={addToFavorites}
+                            src={gif.images.original.url}
+                        />
+                        <button
+                            value={<img src={gif.images.original.url} />}
+                            onClick={addToFavorites}
+                        >
+                            Add to Favorites
+                        </button>
+                    </div>
+                );
             })}
         </>
     );

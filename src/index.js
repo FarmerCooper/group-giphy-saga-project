@@ -25,7 +25,6 @@ const favList = (state = [], action) => {
             console.log(action.payload);
             //maybe spread payload
             return action.payload;
-
         default:
             return state;
     }
@@ -33,10 +32,21 @@ const favList = (state = [], action) => {
 
 //GET => search results
 const searchResults = (state = [], action) => {
-    console.log('this one', action.payload)
+    console.log('this one', action.payload);
     switch (action.type) {
         case 'GET_RESULTS':
             return action.payload;
+        default:
+            return state;
+    }
+};
+
+//POST
+const postResults = (state = [], action) => {
+    console.log('this one', action.payload);
+    switch (action.type) {
+        case 'POST_RESULTS':
+            return [...state, action.payload];
         default:
             return state;
     }
@@ -65,6 +75,20 @@ function* postSearchTerm(action) {
     console.log(`Action.payload: `, action.payload);
 }
 
+//! 2. POST
+function* postFavs(action) {
+    try {
+        //POST
+        yield axios.post('/api/favorite', action.payload);
+        //GET => refresh
+        yield put({
+            type: 'POST_RESULTS',
+        });
+    } catch (err) {
+        console.log(`ERR in postFavs:`, err);
+    }
+}
+
 // function* postSearchTerm(action) {
 //     console.log(`Action.payload:`, action.payload);
 //     try {
@@ -82,6 +106,7 @@ function* watcherSaga() {
     yield takeEvery('FETCH_FAVS', fetchFavs);
     // POST
     yield takeEvery('SEARCH_RESULTS', postSearchTerm);
+    yield takeEvery('POST_FAV', postFavs);
 }
 
 const sagaMiddleware = createSagaMiddleware();
@@ -94,6 +119,7 @@ const storeInstance = createStore(
     combineReducers({
         //reducers go here
         searchResults,
+        postResults,
         gifList,
         favList,
     }),
