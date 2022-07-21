@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 
 export default function Home() {
+    //! local state
+
     //* 2. create dispatch and useSelector
     //const
     const dispatch = useDispatch();
