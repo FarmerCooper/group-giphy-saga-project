@@ -1,19 +1,20 @@
 const express = require('express');
 const pool = require('../modules/pool');
-
+const axios = require('axios');
 const router = express.Router();
 
+//* 1. set up GET request
 router.get('/', (req, res) => {
     axios
         .get(
             `api.giphy.com/v1/gifs/search?api_key=${process.env.GIPHY_API_KEY}`
         )
         .then((response) => {
-            console.log(response.data);
+            console.log(`Here's what I got from giphy API:`, response.data);
             res.send(response.data);
         })
         .catch((err) => {
-            console.log(`ERR in GET`, err);
+            console.log(`ERR in category.router.jsx`, err);
             res.sendStatus(500);
         });
 });

@@ -1,3 +1,5 @@
+//* 5. require(dotenv)
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 
@@ -22,5 +24,5 @@ app.use('/api/category', categoryRouter);
 
 // Listen
 app.listen(PORT, () => {
-  console.log(`Listening on port: ${PORT}`);
+    console.log(`Listening on port: ${PORT}`);
 });

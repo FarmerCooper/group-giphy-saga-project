@@ -6,8 +6,6 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 import logger from 'redux-logger';
-import { takeEvery, put } from 'redux-saga/effects';
-import axios from 'axios';
 
 //favorites
 const gifList = (state = [], action) => {
@@ -19,10 +17,10 @@ const gifList = (state = [], action) => {
     }
 };
 
-//search results
+//GET => search results
 const searchResults = (state = [], action) => {
     switch (action.type) {
-        case '':
+        case 'SET_RESULTS':
             return action.payload;
         default:
             return state;
@@ -43,6 +41,7 @@ const storeInstance = createStore(
     // reducer is a function that runs every time an action is dispatched
     combineReducers({
         //reducers go here
+        searchResults,
         gifList,
     }),
     applyMiddleware(sagaMiddleware, logger)
