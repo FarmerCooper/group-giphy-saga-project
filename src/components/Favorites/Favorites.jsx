@@ -8,14 +8,15 @@ function Favorites() {
     const favList=useSelector(store=>store.favList)
     useEffect(()=>{
         dispatch({type: 'FETCH_FAVS'})
-    }
+    }, [])
 
-    )
     
-
     return (
-        <p>
-        </p>
+        <>
+            {favList.map((url, i) => (
+                <li key={i}><img src={url} /></li>
+            ))}
+        </>
     )
 }
 
