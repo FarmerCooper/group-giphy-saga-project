@@ -1,10 +1,9 @@
-import GifItem from "../GifItem/GifItem";
+// import GifItem from "../GifItem/GifItem";
 
 function GifList() {
     return (
         <div>
             {/* map will go here */}
-            <GifItem />
         </div>
     )
 }

@@ -1,0 +1,18 @@
+body {
+    text-align: center;
+    font-family: 'Muli', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.App-Header {
+    background-color: #121212;
+    height: 10rem;
+    padding: 2rem;
+    color: white;
+}
+
+input {
+    height: 3rem;
+    min-width: 15rem;
+}
